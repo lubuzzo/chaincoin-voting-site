@@ -56,7 +56,7 @@ class ChainCoin
 			throw new \Exception("Curl is not active on this PHP installation. Please install the curl PHP library.");
 		}
 
-		include "settings.php";
+		include "env.php";
 
 		$this->_user = $settings["user"];
 		$this->_password = $settings["pass"];
