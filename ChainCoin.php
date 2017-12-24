@@ -58,10 +58,10 @@ class ChainCoin
 
 		include "env.php";
 
-		$this->_user = $settings["user"];
-		$this->_password = $settings["pass"];
-		$this->_host = $settings["host"];
-		$this->_port = $settings["port"];
+		$this->_user = $settings["rpc.user"];
+		$this->_password = $settings["rpc.pass"];
+		$this->_host = $settings["rpc.host"];
+		$this->_port = $settings["rpc.port"];
 	}
 
 	/**
