@@ -1,6 +1,6 @@
 <?php
 
-  function createDb(){
+  function createTable(){
     include 'connect.php';
     include 'env.php';
 
@@ -9,6 +9,8 @@
       wallet VARCHAR(64) DEFAULT NULL UNIQUE,
       ip VARCHAR(51) NOT NULL UNIQUE,
       vote VARCHAR(7) NOT NULL,
+      time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      voteRight int(1) NOT NULL DEFAULT '0',
       INDEX `ip_index` (`ip`),
       INDEX `wallet_index` (`wallet`)
     )");
@@ -19,27 +21,63 @@
       return 1;
   }
 
-  function databaseExist() {
+  function tableExist() {
     include 'connect.php';
     include 'env.php';
 
     if (!($pdo->query("SELECT 1 FROM `votes`")))
-      return createDb();
+      return createTable();
     return 1;
+  }
+
+  function countVotes() {
+    include 'connect.php';
+    include 'env.php';
+
+    $count = $pdo->query("SELECT COUNT(id) as count FROM votes");
+    return $count->fetch(PDO::FETCH_OBJ)->count;
+  }
+
+  function startVotation($ip) {
+    include 'connect.php';
+    include 'env.php';
+
+    $pdo->query("INSERT INTO `votes` (`ip`, `vote`, `voteRight`) VALUES ('".$ip."', 'ABSTAIN', '1')");
+  }
+
+  function nodeExist($ip, $vote) {
+    include 'connect.php';
+    include 'env.php';
+
+    $exist = $pdo->query("SELECT count(id) as id, vote as vote FROM `votes` WHERE `ip` = '".$ip."'");
+    if (($exist->fetch(PDO::FETCH_OBJ)->id) == 0)
+      insertNewNode($ip, $vote);
+    else {
+      if (($exist->fetch(PDO::FETCH_OBJ)->vote != $vote) && ($vote != "ABSTAIN"));
+      insertVote($ip, $vote);
+    }
+    return 1;
+  }
+
+  function insertNewNode($ip, $vote) {
+    include 'connect.php';
+    include 'env.php';
+
+    $pdo->query("INSERT INTO `votes` (`ip`, `vote`, `voteRight`) VALUES ('".$ip."', '".$vote."', '0')");
   }
 
   function insertVote($ip, $vote) {
     include 'connect.php';
     include 'env.php';
 
-    $pdo->query("INSERT INTO `votes` (`ip`, `vote`) VALUES ('".$ip."', '".$vote."')");
+    $pdo->query("UPDATE `votes` SET `vote` = '".$vote."' WHERE `ip` = '".$ip."'");
   }
 
-  function insertWallet($ip, $wallet) {
-    include 'connect.php';
-    include 'env.php';
-
-    $ip = str_replace(' ', '', $ip);
-
-    $pdo->query("UPDATE `votes` SET `wallet`='".$wallet."' WHERE `ip`='".$ip."'");
-  }
+  // function insertWallet($ip, $wallet) {
+  //   include 'connect.php';
+  //   include 'env.php';
+  //
+  //   $ip = str_replace(' ', '', $ip);
+  //
+  //   $pdo->query("UPDATE `votes` SET `wallet`='".$wallet."' WHERE `ip`='".$ip."'");
+  // }
