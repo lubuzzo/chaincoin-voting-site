@@ -6,13 +6,11 @@
 
     $createTable = $pdo->query("CREATE TABLE `votes` (
       id INT(10) AUTO_INCREMENT PRIMARY KEY,
-      wallet VARCHAR(64) DEFAULT NULL UNIQUE,
       ip VARCHAR(51) NOT NULL UNIQUE,
       vote VARCHAR(7) NOT NULL,
       time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       voteRight int(1) NOT NULL DEFAULT '0',
-      INDEX `ip_index` (`ip`),
-      INDEX `wallet_index` (`wallet`)
+      INDEX `ip_index` (`ip`)
     )");
 
     if ($createTable == false)
@@ -72,12 +70,3 @@
 
     $pdo->query("UPDATE `votes` SET `vote` = '".$vote."' WHERE `ip` = '".$ip."'");
   }
-
-  // function insertWallet($ip, $wallet) {
-  //   include 'connect.php';
-  //   include 'env.php';
-  //
-  //   $ip = str_replace(' ', '', $ip);
-  //
-  //   $pdo->query("UPDATE `votes` SET `wallet`='".$wallet."' WHERE `ip`='".$ip."'");
-  // }
