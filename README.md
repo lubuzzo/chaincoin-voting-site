@@ -1,13 +1,13 @@
-##Chaincoin Voting Track
+## Chaincoin Voting Track
 This script track the votes from Chaincoin Masternodes ans store into a MySQL database.
 
 ----------
-###Dependecy
+### Dependecy
 1.  PHP
 2.  MySQL
 3.  cURL (to use [PHP-json-rpc-api](https://github.com/lubuzzo/chaincoin-php-api "json-rpc-api"))
 
-###Using
+### Using
 
  1. Rename the env-sample.php to env.php
  2. Update the content of env.php (renamed in the previous step) with the MySQL and RPC's credentials [You can find RPC's credentials on your chaincoin.conf];
