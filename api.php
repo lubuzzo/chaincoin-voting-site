@@ -31,3 +31,17 @@ function getNah() {
   $info = $count->fetch(PDO::FETCH_OBJ)->count;
   return $info;
 }
+
+
+if (isset($_GET)) {
+  if ($_GET['action'] == 'WVR')
+    echo countWithVoteRights();
+  else if ($_GET['action'] == 'WoVR')
+    echo countWithoutVoteRight();
+  else if ($_GET['action'] == 'Y')
+    echo getYea();
+  else if ($_GET['action'] == 'N')
+    echo getNah();
+} else {
+  header("location: https://chaincoin.org/");
+}
