@@ -61,12 +61,17 @@
                   ?>
 
                   <td><?php echo $value['ip'];?></td>
-                  <td><?php echo $value['vote'];?></td>
+                  <td>
+                    <?php if ($value['voteRight'] == '0') {
+                      echo "without voting rights";
+                    } else echo $value['vote'];
+                    ?>
+                  </td>
                 </tr>
               <?php }
 
             } else {
-              $mn = $pdo->query("SELECT ip, vote, voteRight from votes where ip like '%".$_GET['ip']."%'");
+              $mn = $pdo->query("SELECT ip, vote, voteRight from votes where ip like '%".$_GET['ip']."%' order by voteRight desc");
               $mn = $mn->fetchAll();
               foreach ($mn as $key => $value) { ?>
 
@@ -84,7 +89,12 @@
                   ?>
 
                   <td><?php echo $value['ip'];?></td>
-                  <td><?php echo $value['vote'];?></td>
+                  <td>
+                    <?php if ($value['voteRight'] == '0') {
+                      echo "without voting rights";
+                    } else echo $value['vote'];
+                    ?>
+                  </td>
                 </tr>
               <?php }
             }?>
