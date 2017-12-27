@@ -19,7 +19,7 @@ function countWithoutVoteRight() {
 function getYea() {
   include 'connect.php';
 
-  $count = $pdo->query("SELECT COUNT(id) as count FROM votes WHERE vote = 'YEA'");
+  $count = $pdo->query("SELECT COUNT(id) as count FROM votes WHERE vote = 'YEA' and voteRight = 1");
   $info = $count->fetch(PDO::FETCH_OBJ)->count;
   return $info;
 }
@@ -27,7 +27,7 @@ function getYea() {
 function getNah() {
   include 'connect.php';
 
-  $count = $pdo->query("SELECT COUNT(id) as count FROM votes WHERE vote = 'NAY'");
+  $count = $pdo->query("SELECT COUNT(id) as count FROM votes WHERE vote = 'NAY' and voteRight = 1");
   $info = $count->fetch(PDO::FETCH_OBJ)->count;
   return $info;
 }
